@@ -1,0 +1,3 @@
+[submodule "syncthing"]
+	path = syncthing
+	url = https://github.com/calmh/syncthing.git
