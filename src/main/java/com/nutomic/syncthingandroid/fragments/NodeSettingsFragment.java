@@ -1,4 +1,4 @@
-package com.nutomic.syncthingandroid.gui;
+package com.nutomic.syncthingandroid.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nutomic.syncthingandroid.R;
+import com.nutomic.syncthingandroid.activities.SettingsActivity;
 import com.nutomic.syncthingandroid.syncthing.RestApi;
 import com.nutomic.syncthingandroid.syncthing.SyncthingService;
 import com.nutomic.syncthingandroid.syncthing.SyncthingServiceBinder;
