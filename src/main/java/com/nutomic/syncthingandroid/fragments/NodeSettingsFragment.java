@@ -66,8 +66,6 @@ public class NodeSettingsFragment extends PreferenceFragment implements
 
 	private Preference mCurrentAddress;
 
-	private Preference mDelete;
-
 	private boolean mIsCreate;
 
 	@Override
@@ -94,9 +92,7 @@ public class NodeSettingsFragment extends PreferenceFragment implements
 			mVersion = findPreference("version");
 			mVersion.setSummary("?");
 			mCurrentAddress = findPreference("current_address");
-			mDelete = findPreference("delete");
 			mCurrentAddress.setSummary("?");
-			mDelete.setOnPreferenceClickListener(this);
 		}
 
 		getActivity().bindService(new Intent(getActivity(), SyncthingService.class),
@@ -150,6 +146,7 @@ public class NodeSettingsFragment extends PreferenceFragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.create).setVisible(mIsCreate);
 		menu.findItem(R.id.share_node_id).setVisible(!mIsCreate);
+		menu.findItem(R.id.delete).setVisible(!mIsCreate);
 	}
 
 	@Override
@@ -171,6 +168,19 @@ public class NodeSettingsFragment extends PreferenceFragment implements
 				return true;
 			case R.id.share_node_id:
 				RestApi.shareNodeId(getActivity(), mNode.NodeID);
+				return true;
+			case R.id.delete:
+				new AlertDialog.Builder(getActivity())
+						.setMessage(R.string.delete_node_confirm)
+						.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialogInterface, int i) {
+								mSyncthingService.getApi().deleteNode(mNode, getActivity());
+								getActivity().finish();
+							}
+						})
+						.setNegativeButton(android.R.string.no, null)
+						.show();
 				return true;
 			case android.R.id.home:
 				getActivity().finish();
@@ -213,21 +223,7 @@ public class NodeSettingsFragment extends PreferenceFragment implements
 
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
-		if (preference.equals(mDelete)) {
-			new AlertDialog.Builder(getActivity())
-					.setMessage(R.string.delete_node_confirm)
-					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							mSyncthingService.getApi().deleteNode(mNode, getActivity());
-							getActivity().finish();
-						}
-					})
-					.setNegativeButton(android.R.string.no, null)
-					.show();
-			return true;
-		}
-		else if (preference.equals(mNodeId)) {
+		if (preference.equals(mNodeId)) {
 			mSyncthingService.getApi().copyNodeId(mNode.NodeID);
 			return true;
 		}
