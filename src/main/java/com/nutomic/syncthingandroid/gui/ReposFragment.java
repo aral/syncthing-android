@@ -3,9 +3,7 @@ package com.nutomic.syncthingandroid.gui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.nutomic.syncthingandroid.R;
@@ -88,9 +86,10 @@ public class ReposFragment extends ListFragment implements SyncthingService.OnAp
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		Intent intent = new Intent(getActivity(), RepoSettingsActivity.class);
-		intent.setAction(RepoSettingsActivity.ACTION_EDIT);
-		intent.putExtra(RepoSettingsActivity.KEY_REPO_ID, mAdapter.getItem(i).ID);
+		Intent intent = new Intent(getActivity(), SettingsActivity.class)
+				.setAction(SettingsActivity.ACTION_REPO_SETTINGS_FRAGMENT)
+				.putExtra(SettingsActivity.EXTRA_IS_CREATE, false)
+				.putExtra(RepoSettingsFragment.EXTRA_REPO_ID, mAdapter.getItem(i).ID);
 		startActivity(intent);
 	}
 

@@ -3,9 +3,7 @@ package com.nutomic.syncthingandroid.gui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -89,9 +87,10 @@ public class NodesFragment extends ListFragment implements SyncthingService.OnAp
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		Intent intent = new Intent(getActivity(), NodeSettingsActivity.class);
-		intent.setAction(NodeSettingsActivity.ACTION_EDIT);
-		intent.putExtra(NodeSettingsActivity.KEY_NODE_ID, mAdapter.getItem(i).NodeID);
+		Intent intent = new Intent(getActivity(), SettingsActivity.class);
+		intent.setAction(SettingsActivity.ACTION_NODE_SETTINGS_FRAGMENT);
+		intent.putExtra(SettingsActivity.EXTRA_IS_CREATE, false);
+		intent.putExtra(NodeSettingsFragment.EXTRA_NODE_ID, mAdapter.getItem(i).NodeID);
 		startActivity(intent);
 	}
 
